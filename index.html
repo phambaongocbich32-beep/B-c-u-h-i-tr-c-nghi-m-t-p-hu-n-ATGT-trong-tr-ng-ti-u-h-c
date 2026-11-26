@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hành trình An toàn giao thông</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg1:#bfe3ff;--bg2:#fff4d6;--card:#fff;--ink:#17233a;--mute:#5b6b85;--line:#dbe4f0;--pri:#2563eb;--pri2:#1d4ed8;--ok:#16a34a;--okbg:#dcfce7;--bad:#dc2626;--badbg:#fee2e2;--warn:#f59e0b;--road:#3b4252;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#0f1b33;--bg2:#1b2540;--card:#1c2742;--ink:#eef3ff;--mute:#a4b3d1;--line:#31405f;--pri:#60a5fa;--pri2:#3b82f6;--ok:#4ade80;--okbg:#14391f;--bad:#f87171;--badbg:#4a1c1c;--road:#0b1020;color-scheme:dark}}
+:root[data-theme="dark"]{--bg1:#0f1b33;--bg2:#1b2540;--card:#1c2742;--ink:#eef3ff;--mute:#a4b3d1;--line:#31405f;--pri:#60a5fa;--pri2:#3b82f6;--ok:#4ade80;--okbg:#14391f;--bad:#f87171;--badbg:#4a1c1c;--road:#0b1020;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:linear-gradient(180deg,var(--bg1),var(--bg2)) fixed;min-height:100vh;line-height:1.5}
+.wrap{max-width:760px;margin:0 auto;padding:14px 14px 40px}
+.top{display:flex;align-items:center;gap:8px;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:17px}
+.tabs{display:flex;gap:6px}
+.tabs a,.snd{padding:7px 14px;border-radius:99px;background:var(--card);color:var(--ink);text-decoration:none;font-weight:600;font-size:14px;border:2px solid var(--line);cursor:pointer}
+.tabs a.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+.card{background:var(--card);border-radius:20px;padding:20px;box-shadow:0 6px 24px rgba(20,40,90,.12);border:1px solid var(--line)}
+h1{font-size:26px;line-height:1.2;margin:6px 0 8px}
+h2{font-size:20px;margin:0 0 10px}
+.mute{color:var(--mute);font-size:14px}
+.hero{text-align:center}
+.hero .big{font-size:64px;animation:bob 2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px)}}
+input,textarea{width:100%;padding:12px 14px;font:inherit;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--ink);margin:6px 0}
+input:focus,textarea:focus{outline:none;border-color:var(--pri)}
+.btn{display:inline-block;border:0;background:var(--pri);color:#fff;font:inherit;font-weight:700;padding:13px 24px;border-radius:14px;cursor:pointer;box-shadow:0 4px 0 var(--pri2);transition:transform .08s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--pri2)}
+.btn.sec{background:var(--card);color:var(--ink);border:2px solid var(--line);box-shadow:none}
+.btn.full{width:100%;margin-top:8px}
+.hud{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;font-weight:700;font-size:14px;flex-wrap:wrap}
+.chip{background:var(--card);border:2px solid var(--line);border-radius:99px;padding:3px 12px}
+.road{position:relative;height:46px;background:var(--road);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.road:before{content:"";position:absolute;left:0;right:0;top:50%;border-top:3px dashed #e5e7eb;opacity:.8}
+.car{position:absolute;top:4px;font-size:30px;transition:left .8s cubic-bezier(.3,1.4,.5,1);transform:scaleX(-1)}
+.flag{position:absolute;right:8px;top:6px;font-size:26px}
+.tl{height:12px;border-radius:99px;background:var(--line);overflow:hidden;margin:2px 0 14px}
+.tl i{display:block;height:100%;width:100%;background:var(--ok);transition:width .1s linear,background .3s}
+.q{font-size:19px;font-weight:700;margin:4px 0 14px}
+.opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:14px;padding:12px 14px;margin:9px 0;cursor:pointer;transition:transform .12s,border-color .12s}
+.opt:hover:not(:disabled){border-color:var(--pri);transform:translateX(4px)}
+.opt b{flex:none;width:30px;height:30px;border-radius:50%;background:var(--pri);color:#fff;display:grid;place-items:center}
+.opt.ok{background:var(--okbg);border-color:var(--ok);animation:pop .4s}
+.opt.bad{background:var(--badbg);border-color:var(--bad);animation:shake .4s}
+.opt.pick{border-color:var(--pri);background:var(--okbg)}
+.opt:disabled{cursor:default}
+@keyframes pop{50%{transform:scale(1.03)}}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.fb{border-radius:14px;padding:12px 14px;margin-top:10px;font-size:15px;animation:pop .4s}
+.fb.ok{background:var(--okbg)}.fb.bad{background:var(--badbg)}.fb.info{background:var(--bg2)}
+.cf{position:fixed;left:50%;top:45%;font-size:24px;pointer-events:none;z-index:9;animation:fly 1.1s ease-out forwards}
+@keyframes fly{to{transform:translate(var(--dx),var(--dy)) rotate(360deg);opacity:0}}
+.score{font-size:64px;font-weight:800;color:var(--pri);line-height:1}
+.dots{display:flex;gap:6px;justify-content:center;margin:12px 0;flex-wrap:wrap}
+.dots span{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:14px;font-weight:700;color:#fff}
+.code{font-family:ui-monospace,Menlo,monospace;font-size:12px;word-break:break-all;min-height:90px}
+.tw{overflow-x:auto;margin-top:10px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:620px}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap}
+th{font-size:12px;color:var(--mute)}
+td.l,th.l{text-align:left}
+.g{color:var(--ok);font-weight:800}.r{color:var(--bad);font-weight:800}.n{color:var(--mute)}
+.bar{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:14px}
+.bar em{flex:none;width:92px;font-style:normal}
+.bar div{flex:1;height:16px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar div i{display:block;height:100%;background:var(--pri);border-radius:99px;transition:width .6s}
+.bar span{flex:none;width:56px;text-align:right;font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.stats div{background:var(--bg2);border-radius:14px;padding:10px;text-align:center}
+.stats b{display:block;font-size:24px}
+.err{color:var(--bad);font-size:14px;margin:6px 0}
+/* ===== Giao diện sang trọng: xanh navy + vàng đồng ===== */
+:root{--bg1:#f8f4ea;--bg2:#efe7d4;--card:#fffdf8;--ink:#1b2433;--mute:#6b7280;--line:#e7dec9;--pri:#1e3a5f;--pri2:#142a47;--onpri:#fff;--gold:#b8893b;--ok:#2f855a;--okbg:#e8f5ec;--bad:#c0392b;--badbg:#fbeae6;--warn:#d69e2e;--road:#1f2937}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#0a1220;--bg2:#111c33;--card:#15203a;--ink:#f3ecdc;--mute:#a7b0c4;--line:#2a3a5c;--pri:#e0b866;--pri2:#b8893b;--onpri:#0a1220;--gold:#e0b866;--ok:#5fd08d;--okbg:#14352a;--bad:#f08a7e;--badbg:#412020;--road:#060b16}}
+:root[data-theme="dark"]{--bg1:#0a1220;--bg2:#111c33;--card:#15203a;--ink:#f3ecdc;--mute:#a7b0c4;--line:#2a3a5c;--pri:#e0b866;--pri2:#b8893b;--onpri:#0a1220;--gold:#e0b866;--ok:#5fd08d;--okbg:#14352a;--bad:#f08a7e;--badbg:#412020;--road:#060b16}
+body{font-family:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:radial-gradient(900px 420px at 85% -5%,color-mix(in srgb,var(--gold) 22%,transparent),transparent),linear-gradient(180deg,var(--bg1),var(--bg2)) fixed}
+h1,h2,.brand,.score,.q{font-family:"Playfair Display",Georgia,"Times New Roman",serif}
+.top{border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:18px}
+.brand{font-size:21px;font-weight:800;color:var(--ink);letter-spacing:.2px;line-height:1.1}
+.eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-top:6px}
+.tabs a,.snd{border:1px solid var(--line);background:transparent;font-size:13px;padding:7px 15px;font-weight:600;transition:all .2s}
+.tabs a:hover,.snd:hover{border-color:var(--gold)}
+.tabs a.on{background:var(--pri);color:var(--onpri);border-color:var(--pri)}
+.card{border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:18px;padding:24px;box-shadow:0 22px 44px -24px rgba(15,25,45,.35)}
+h1{font-size:32px;font-weight:800;letter-spacing:-.3px;margin:8px 0 10px}
+h2{font-weight:700}
+.hero .big{display:inline-grid;place-items:center;width:92px;height:92px;font-size:48px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--gold) 26%,transparent),transparent 70%);border:1px solid var(--line);margin-bottom:6px}
+input,textarea{border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--card) 70%,var(--bg1))}
+input:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 25%,transparent)}
+.btn{background:linear-gradient(135deg,var(--pri),var(--pri2));color:var(--onpri);border-radius:12px;padding:14px 26px;letter-spacing:.2px;box-shadow:0 12px 22px -12px rgba(20,40,80,.65);transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(1px);box-shadow:0 4px 10px -6px rgba(20,40,80,.6)}
+.btn.sec{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.chip{background:transparent;border:1px solid var(--line);font-size:12px;font-weight:600;padding:3px 12px}
+.road{height:50px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,var(--road),color-mix(in srgb,var(--road) 80%,#000));box-shadow:0 10px 20px -14px rgba(0,0,0,.6)}
+.road:before{border-top:2px dashed var(--gold);opacity:.75}
+.tl{height:6px}
+.q{font-size:21px;font-weight:700;line-height:1.4;margin:6px 0 16px}
+.opt{border:1px solid var(--line);border-radius:14px;padding:13px 15px;background:var(--card);box-shadow:0 1px 0 rgba(255,255,255,.4) inset}
+.opt:hover:not(:disabled){border-color:var(--gold);transform:translateX(4px);box-shadow:0 10px 20px -14px rgba(20,30,50,.5)}
+.opt b{background:transparent;color:var(--gold);border:1.5px solid var(--gold);font-size:14px;transition:all .15s}
+.opt:hover:not(:disabled) b{background:var(--pri);color:var(--onpri);border-color:var(--pri)}
+.opt.ok{border-color:var(--ok)}.opt.ok b{background:var(--ok);border-color:var(--ok);color:#fff}
+.opt.bad{border-color:var(--bad)}.opt.bad b{background:var(--bad);border-color:var(--bad);color:#fff}
+.opt.pick{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 12%,var(--card))}.opt.pick b{background:var(--gold);color:#fff}
+.fb{border-left:4px solid var(--gold);border-radius:12px}
+.fb.ok{border-left-color:var(--ok)}.fb.bad{border-left-color:var(--bad)}
+.score{color:var(--gold);font-weight:800;font-size:72px}
+.dots span{box-shadow:0 6px 12px -6px rgba(0,0,0,.4)}
+.stats div{border:1px solid var(--line);background:color-mix(in srgb,var(--card) 60%,var(--bg1))}
+.stats b{font-family:"Playfair Display",Georgia,serif;color:var(--gold)}
+th{text-transform:uppercase;letter-spacing:.06em;font-size:11px}
+tr:hover td{background:color-mix(in srgb,var(--gold) 8%,transparent)}
+.bar div{height:12px}.bar div i{background:linear-gradient(90deg,var(--pri),var(--gold))}
+.code{background:color-mix(in srgb,var(--card) 60%,var(--bg1))}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div><div class="brand">Hành trình ATGT</div><div class="eyebrow" style="margin-top:3px">Tập huấn · An toàn giao thông</div></div>
+    <div class="tabs"><a href="#choi" id="t1">🎮 Chơi</a><a href="#cham" id="t2">📊 Chấm</a><button class="snd" id="snd" title="Âm thanh">🔊</button></div>
+  </div>
+  <div id="main"></div>
+</div>
+<script>
+"use strict";
+var Q=[
+{g:"Nhóm 1 · Nhận thức",q:"Theo thầy/cô, mục tiêu quan trọng nhất của việc giáo dục ATGT cho học sinh tiểu học là gì?",o:["Giúp học sinh ghi nhớ các quy định về giao thông.","Giúp học sinh nhận biết biển báo giao thông.","Hình thành kiến thức, thái độ và kỹ năng tham gia giao thông an toàn.","Giúp học sinh thực hiện tốt nội quy của nhà trường."],k:"C",e:"Mục tiêu cốt lõi là hình thành đồng thời kiến thức, thái độ và kỹ năng, không chỉ ghi nhớ."},
+{g:"Nhóm 1 · Nhận thức",q:"Những nội dung ATGT nào cần được ưu tiên giáo dục cho học sinh tiểu học?",o:["Chỉ tìm hiểu các loại phương tiện giao thông.","Đi bộ an toàn, qua đường đúng cách, nhận biết biển báo và tín hiệu giao thông.","Tìm hiểu lịch sử phát triển của các phương tiện giao thông.","Tìm hiểu các quy định xử phạt vi phạm giao thông."],k:"B",e:"Ưu tiên những kỹ năng thiết thực, gắn với việc đi lại hằng ngày của các em."},
+{g:"Nhóm 1 · Nhận thức",q:"Việc tích hợp giáo dục ATGT vào các môn học và hoạt động giáo dục cần thực hiện như thế nào để đạt hiệu quả?",o:["Tích hợp vào tất cả các bài học, không cần quan tâm đến mục tiêu bài học.","Chỉ tổ chức giáo dục ATGT trong các buổi sinh hoạt dưới cờ.","Lựa chọn nội dung phù hợp với mục tiêu bài học, môn học và gắn với tình huống thực tế.","Dành riêng một tiết học ATGT vào cuối mỗi học kỳ."],k:"C",e:"Tích hợp đúng chỗ, đúng mục tiêu và gắn tình huống thực tế mới hiệu quả."},
+{g:"Nhóm 2 · Phương pháp và thực tiễn",q:"Khi xây dựng một bài dạy có tích hợp nội dung ATGT, thầy/cô cần xác định nội dung nào trước tiên?",o:["Lựa chọn hình ảnh, video minh họa.","Xác định mục tiêu bài học và kỹ năng ATGT cần hình thành cho học sinh.","Chuẩn bị câu hỏi kiểm tra cuối bài.","Lựa chọn trò chơi để tạo hứng thú cho học sinh."],k:"B",e:"Mục tiêu đi trước, rồi mới chọn học liệu, trò chơi và cách kiểm tra."},
+{g:"Nhóm 2 · Phương pháp và thực tiễn",q:"Hoạt động nào sau đây giúp học sinh rèn luyện kỹ năng tham gia giao thông an toàn hiệu quả nhất?",o:["Đóng vai xử lý tình huống khi tham gia giao thông.","Quan sát, nhận biết biển báo và tín hiệu giao thông.","Thực hành qua đường tại mô hình hoặc khu vực an toàn.","Cả A, B và C."],k:"D",e:"Kết hợp đóng vai, quan sát và thực hành sẽ hiệu quả nhất."},
+{g:"Nhóm 2 · Phương pháp và thực tiễn",q:"Khi giáo dục kỹ năng qua đường an toàn, giáo viên cần hướng dẫn các em quan sát hai phía, lựa chọn nơi qua đường an toàn và chấp hành tín hiệu giao thông.",o:["Đúng.","Sai."],k:"A",e:"Ba việc này là các bước nền tảng của kỹ năng qua đường an toàn."},
+{g:"Nhóm 2 · Khảo sát thực tế",q:"Đâu là khó khăn lớn nhất khi tổ chức giáo dục ATGT cho học sinh tại trường?",o:["Thiếu tài liệu, học liệu và phương tiện hỗ trợ giảng dạy.","Thời lượng chương trình học còn hạn chế.","Thiếu không gian, điều kiện để tổ chức hoạt động thực hành.","Khó khăn trong việc phối hợp giữa nhà trường, gia đình và cộng đồng."],k:null,s:["Thiếu học liệu","Thiếu thời lượng","Thiếu không gian","Khó phối hợp"],e:"Câu khảo sát: không có đáp án đúng hay sai, thầy/cô chọn phương án sát thực tế đơn vị."},
+{g:"Nhóm 3 · Đề xuất và giải pháp",q:"Chỉ tuyên truyền về ATGT trong các buổi sinh hoạt dưới cờ đã đủ để hình thành kỹ năng tham gia giao thông an toàn cho học sinh chưa?",o:["Đủ, vì học sinh đã được nghe và ghi nhớ các quy định.","Chưa đủ, cần kết hợp với tích hợp trong môn học, hoạt động trải nghiệm và thực hành tình huống.","Đủ nếu tổ chức tuyên truyền thường xuyên.","Không cần tuyên truyền nếu đã có giáo viên chủ nhiệm nhắc nhở."],k:"B",e:"Nghe và nhớ chưa đủ, kỹ năng chỉ hình thành qua trải nghiệm và thực hành."},
+{g:"Nhóm 3 · Đề xuất và giải pháp",q:"Giải pháp nào giúp việc giáo dục ATGT được thực hiện thường xuyên, thiết thực và hiệu quả hơn?",o:["Chỉ tăng cường tuyên truyền vào đầu năm học.","Xây dựng kế hoạch giáo dục ATGT thường xuyên, tích hợp vào môn học và gắn với tình huống thực tế.","Giao toàn bộ nội dung giáo dục ATGT cho giáo viên chủ nhiệm.","Chỉ tổ chức các cuộc thi tìm hiểu về ATGT."],k:"B",e:"Cần kế hoạch bài bản, thường xuyên, có tích hợp và gắn thực tế."},
+{g:"Nhóm 3 · Đề xuất và giải pháp",q:"Hình thức phối hợp nào giữa nhà trường, gia đình và cộng đồng góp phần nâng cao hiệu quả giáo dục ATGT cho học sinh?",o:["Nhà trường tự tổ chức các hoạt động giáo dục ATGT.","Gia đình tự nhắc nhở học sinh khi tham gia giao thông.","Nhà trường, gia đình và cộng đồng cùng xây dựng kế hoạch, phân công trách nhiệm và thường xuyên trao đổi thông tin.","Chỉ phối hợp với lực lượng công an khi xảy ra vi phạm giao thông."],k:"C",e:"Phối hợp hiệu quả là cùng lập kế hoạch, phân công rõ và trao đổi thường xuyên."}
+];
+var N=Q.length,SCORED=Q.filter(function(x){return x.k}).length,TIME=35,L="ABCD";
+var $=function(s){return document.querySelector(s)};
+var esc=function(s){return String(s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})};
+var S=null,muted=false,AC=null;
+
+function beep(f,d,t){if(muted)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();var o=AC.createOscillator(),g=AC.createGain();o.type=t||"sine";o.frequency.value=f;g.gain.value=.08;o.connect(g);g.connect(AC.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.stop(AC.currentTime+d)}catch(e){}}
+function sfx(k){if(k){beep(660,.15);setTimeout(function(){beep(880,.25)},120)}else{beep(190,.35,"sawtooth")}}
+function burst(em,n){for(var i=0;i<(n||14);i++){var s=document.createElement("span");s.className="cf";s.textContent=em[i%em.length];s.style.setProperty("--dx",(Math.random()*500-250)+"px");s.style.setProperty("--dy",(Math.random()*-300-40)+"px");document.body.appendChild(s);setTimeout(function(x){x.remove()}.bind(null,s),1200)}}
+
+$("#snd").onclick=function(){muted=!muted;this.textContent=muted?"🔇":"🔊"};
+
+/* ---------- ĐIỀU HƯỚNG ---------- */
+function route(){var cham=location.hash==="#cham";$("#t1").className=cham?"":"on";$("#t2").className=cham?"on":"";
+  if(cham){clearInterval(S&&S.timer);viewCham()}else if(!S||S.done){viewStart()}else{viewQ()}}
+window.addEventListener("hashchange",route);
+
+/* ---------- TRÒ CHƠI ---------- */
+function viewStart(){S=null;$("#main").innerHTML='<div class="card hero"><div class="big">🚦</div><div class="eyebrow">Bộ câu hỏi trắc nghiệm tập huấn</div><h1>Hành trình An toàn giao thông</h1><p class="mute">Bộ câu hỏi trắc nghiệm tập huấn: Giáo dục an toàn giao thông trong trường tiểu học. 10 câu, mỗi câu '+TIME+' giây. Trả lời nhanh để nhận thêm điểm thưởng!</p><div style="text-align:left"><label class="mute">Họ và tên</label><input id="nm" maxlength="40" placeholder="Ví dụ: Nguyễn Thị An" autocomplete="name"><label class="mute">Đơn vị / Trường</label><input id="un" maxlength="50" placeholder="Ví dụ: Trường Tiểu học ..."></div><div class="err" id="er"></div><button class="btn full" id="go">🚦 Xuất phát!</button></div>';
+  $("#go").onclick=function(){var n=$("#nm").value.trim(),u=$("#un").value.trim();if(!n){$("#er").textContent="Thầy/cô vui lòng nhập họ và tên.";return}
+    S={n:n,u:u,i:0,a:[],pts:0,streak:0,time:0,done:false};beep(520,.12);viewQ()}}
+
+function viewQ(){var i=S.i,q=Q[i],pct=i/N*86;clearInterval(S.timer);S.locked=false;S.left=TIME;S.t0=Date.now();
+  var h='<div class="hud"><span class="chip">'+esc(q.g)+'</span><span class="chip">Câu '+(i+1)+'/'+N+'</span><span class="chip">⭐ '+S.pts+'</span>'+(S.streak>1?'<span class="chip">🔥 x'+S.streak+'</span>':'')+'</div>';
+  h+='<div class="road"><span class="car" id="car" style="left:'+(i?(i-1)/N*86:0)+'%">🚗</span><span class="flag">🏁</span></div>';
+  h+='<div class="card">'+(q.k?'<div class="tl"><i id="tl"></i></div>':'<p class="mute" style="margin:0 0 6px">📝 Câu khảo sát, không tính điểm và không giới hạn thời gian</p>')+'<div class="q">'+esc(q.q)+'</div>';
+  q.o.forEach(function(t,j){h+='<button class="opt" data-j="'+j+'"><b>'+L[j]+'</b><span>'+esc(t)+'</span></button>'});
+  h+='<div id="fb"></div></div>';$("#main").innerHTML=h;
+  setTimeout(function(){var c=$("#car");if(c)c.style.left=pct+"%"},60);
+  document.querySelectorAll(".opt").forEach(function(b){b.onclick=function(){answer(L[+b.dataset.j])}});
+  if(q.k){S.timer=setInterval(tick,100)}}
+
+function tick(){S.left-=.1;var p=Math.max(0,S.left/TIME*100),t=$("#tl");if(t){t.style.width=p+"%";t.style.background=p>50?"var(--ok)":p>20?"var(--warn)":"var(--bad)"}
+  if(S.left<=0){answer("-")}}
+
+function answer(l){if(S.locked)return;S.locked=true;clearInterval(S.timer);var i=S.i,q=Q[i],spent=Math.min(TIME,(Date.now()-S.t0)/1000);S.time+=spent;S.a[i]=l;
+  var fb="",ok=q.k&&l===q.k;
+  document.querySelectorAll(".opt").forEach(function(b,j){b.disabled=true;var x=L[j];
+    if(q.k){if(x===q.k)b.classList.add("ok");else if(x===l)b.classList.add("bad")}else if(x===l)b.classList.add("pick")});
+  if(q.k){if(ok){var bonus=Math.round(S.left/TIME*50),add=100+bonus+Math.min(S.streak,4)*10;S.pts+=add;S.streak++;sfx(1);burst(["🎉","⭐","✨","🌟"]);
+      fb='<div class="fb ok"><b>Chính xác! +'+add+' điểm</b> (thưởng tốc độ '+bonus+')<br>'+esc(q.e)+'</div>'}
+    else{S.streak=0;sfx(0);fb='<div class="fb bad"><b>'+(l==="-"?"⏰ Hết giờ! ":"Chưa đúng. ")+'Đáp án đúng là '+q.k+'.</b><br>'+esc(q.e)+'</div>'}}
+  else{sfx(1);fb='<div class="fb info"><b>Cảm ơn thầy/cô đã chia sẻ! 💙</b><br>'+esc(q.e)+'</div>'}
+  fb+='<button class="btn full" id="nx">'+(i<N-1?"Câu tiếp theo ▶":"Xem kết quả 🏁")+'</button>';$("#fb").innerHTML=fb;
+  $("#nx").onclick=function(){if(i<N-1){S.i++;viewQ()}else finish()};}
+
+function enc(o){return "ATGT1."+btoa(unescape(encodeURIComponent(JSON.stringify(o))))}
+function dec(c){var j=JSON.parse(decodeURIComponent(escape(atob(c.replace(/^ATGT1\./,"")))));if(typeof j.n!=="string"||typeof j.a!=="string"||j.a.length!==N)throw 0;return j}
+function mark(a){var c=0;for(var i=0;i<N;i++)if(Q[i].k&&a[i]===Q[i].k)c++;return c}
+function rank(c){return c>=9?["🏆","Chiến binh ATGT"]:c>=7?["🚦","Tài xế mẫu mực"]:c>=5?["🚸","Người đi bộ thông thái"]:["🚧","Cần tăng tốc thêm"]}
+
+function finish(){S.done=true;var c=mark(S.a),r=rank(c),code=enc({n:S.n,u:S.u,a:S.a.join(""),t:Math.round(S.time),p:S.pts});burst(["🎊","🏆","🎉","⭐","🚦"],26);beep(784,.4);
+  var d="";for(var i=0;i<N;i++){var q=Q[i],bg=!q.k?"var(--pri)":S.a[i]===q.k?"var(--ok)":"var(--bad)";d+='<span style="background:'+bg+'">'+(i+1)+'</span>'}
+  $("#main").innerHTML='<div class="road"><span class="car" style="left:86%">🚗</span><span class="flag">🏁</span></div><div class="card hero"><div class="big">'+r[0]+'</div><h2>'+esc(S.n)+', thầy/cô là “'+r[1]+'”!</h2><div class="score">'+c+'/'+SCORED+'</div><p class="mute">câu đúng · ⭐ '+S.pts+' điểm · ⏱ '+Math.round(S.time)+' giây</p><div class="dots">'+d+'</div><p class="mute">Xanh lá: đúng · Đỏ: chưa đúng · Xanh dương: câu khảo sát</p>'
+   +'<div style="text-align:left"><b>📨 Mã kết quả</b><p class="mute" style="margin:2px 0">Sao chép mã này và gửi cho ban tổ chức để nộp bài.</p><textarea class="code" id="cd" readonly>'+code+'</textarea></div><button class="btn full" id="cp">📋 Sao chép mã kết quả</button><button class="btn sec full" id="again">🔄 Chơi lại</button></div>';
+  $("#cp").onclick=function(){var t=$("#cd");t.select();var ok=false;try{ok=document.execCommand("copy")}catch(e){}
+    if(!ok&&navigator.clipboard){navigator.clipboard.writeText(code).then(function(){$("#cp").textContent="✅ Đã sao chép!"},function(){});return}
+    $("#cp").textContent=ok?"✅ Đã sao chép!":"Hãy nhấn giữ vào khung mã để sao chép"};
+  $("#again").onclick=function(){S=null;viewStart()}}
+
+/* ---------- WEB CHẤM ---------- */
+function viewCham(){var saved="";try{saved=localStorage.getItem("atgt_codes")||""}catch(e){}
+  $("#main").innerHTML='<div class="card"><h2>📊 Trang chấm bài</h2><p class="mute">Dán các mã kết quả mà giáo viên gửi về (mỗi mã một dòng, hoặc dán liền nhau). Hệ thống tự chấm theo đáp án, xếp hạng và thống kê câu khảo sát.</p><textarea class="code" id="cs" rows="6" placeholder="ATGT1.eyJ...">'+esc(saved)+'</textarea><div class="err" id="ce"></div><button class="btn" id="run">✅ Chấm bài</button> <button class="btn sec" id="clr">🗑 Xóa</button></div><div id="out"></div>';
+  $("#run").onclick=runCham;$("#clr").onclick=function(){$("#cs").value="";try{localStorage.removeItem("atgt_codes")}catch(e){}$("#out").innerHTML="";$("#ce").textContent=""};
+  if(saved.trim())runCham()}
+
+function runCham(){var txt=$("#cs").value;try{localStorage.setItem("atgt_codes",txt)}catch(e){}
+  var toks=txt.match(/ATGT1\.[A-Za-z0-9+\/=]+/g)||[],seen={},R=[],bad=0;
+  toks.forEach(function(t){if(seen[t])return;seen[t]=1;try{var j=dec(t);j.c=mark(j.a);R.push(j)}catch(e){bad++}});
+  $("#ce").textContent=bad?bad+" mã không hợp lệ đã bị bỏ qua.":"";
+  if(!R.length){$("#out").innerHTML='<div class="card" style="margin-top:12px"><p class="mute">Chưa có bài hợp lệ để chấm.</p></div>';return}
+  R.sort(function(a,b){return b.c-a.c||a.t-b.t});
+  var n=R.length,avg=R.reduce(function(s,r){return s+r.c},0)/n,full=R.filter(function(r){return r.c===SCORED}).length;
+  var h='<div class="card" style="margin-top:12px"><h2>Kết quả '+n+' bài</h2><div class="stats"><div><b>'+n+'</b><span class="mute">bài nộp</span></div><div><b>'+avg.toFixed(1)+'/'+SCORED+'</b><span class="mute">trung bình đúng</span></div><div><b>'+full+'</b><span class="mute">đạt tối đa</span></div></div><div class="tw"><table><tr><th>Hạng</th><th class="l">Họ tên</th><th class="l">Đơn vị</th><th>Đúng</th><th>Điểm /10</th><th>Giây</th>';
+  for(var i=0;i<N;i++)h+='<th>C'+(i+1)+'</th>';h+='</tr>';
+  R.forEach(function(r,x){var m=x==0?"🥇":x==1?"🥈":x==2?"🥉":x+1;h+='<tr><td>'+m+'</td><td class="l"><b>'+esc(r.n)+'</b></td><td class="l">'+esc(r.u||"")+'</td><td><b>'+r.c+'/'+SCORED+'</b></td><td>'+(r.c/SCORED*10).toFixed(1)+'</td><td>'+r.t+'</td>';
+    for(var i=0;i<N;i++){var q=Q[i],a=r.a[i];h+=!q.k?'<td class="n">'+(a==="-"?"–":esc(a))+'</td>':a===q.k?'<td class="g">✓</td>':'<td class="r">'+(a==="-"?"⏰":"✗ "+esc(a))+'</td>'}h+='</tr>'});
+  h+='</table></div></div>';
+  h+='<div class="card" style="margin-top:12px"><h2>Tỉ lệ trả lời đúng từng câu</h2>';
+  for(var i=0;i<N;i++){if(!Q[i].k)continue;var ok=R.filter(function(r){return r.a[i]===Q[i].k}).length,p=Math.round(ok/n*100);h+='<div class="bar"><em>Câu '+(i+1)+'</em><div><i style="width:'+p+'%"></i></div><span>'+p+'%</span></div>'}
+  h+='</div>';
+  var si=Q.findIndex(function(x){return !x.k}),sq=Q[si];h+='<div class="card" style="margin-top:12px"><h2>Khảo sát câu '+(si+1)+': khó khăn lớn nhất</h2>';
+  for(var j=0;j<4;j++){var cnt=R.filter(function(r){return r.a[si]===L[j]}).length,p=Math.round(cnt/n*100);h+='<div class="bar"><em>'+L[j]+'. '+esc(sq.s[j])+'</em><div><i style="width:'+p+'%"></i></div><span>'+cnt+' ('+p+'%)</span></div>'}
+  h+='</div>';
+  var csv="STT,Họ tên,Đơn vị,Số câu đúng,Điểm (thang 10),Thời gian (giây)";for(var i=1;i<=N;i++)csv+=",C"+i;csv+="\n";
+  R.forEach(function(r,x){csv+=[x+1,'"'+r.n.replace(/"/g,'""')+'"','"'+(r.u||"").replace(/"/g,'""')+'"',r.c,(r.c/SCORED*10).toFixed(1),r.t].concat(r.a.split("")).join(",")+"\n"});
+  h+='<div class="card" style="margin-top:12px"><h2>📥 Xuất bảng điểm (CSV)</h2><p class="mute">Sao chép và dán vào Excel hoặc Google Sheets.</p><textarea class="code" id="csv" readonly rows="5">'+esc(csv)+'</textarea><button class="btn" id="cc">📋 Sao chép bảng điểm</button></div>';
+  $("#out").innerHTML=h;
+  $("#cc").onclick=function(){var t=$("#csv");t.select();var ok=false;try{ok=document.execCommand("copy")}catch(e){}$("#cc").textContent=ok?"✅ Đã sao chép!":"Nhấn giữ khung để sao chép"}}
+
+route();
+</script>
+</body>
+</html>
